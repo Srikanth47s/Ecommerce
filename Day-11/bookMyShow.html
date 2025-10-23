@@ -1,0 +1,76 @@
+<!-- Complete BookMyShow -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BookMyShow - My Version</title>
+    <style>
+        body {
+            font-family: Arial; 
+            padding: 20px;
+            background: #1a1a1a;
+            color: rgb(37, 36, 36);
+        }
+
+        h1 {
+            text-align: center;
+            color: #e74c3c;
+        }
+
+        .m {
+            background: #2c3e50;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+        }
+
+        h3 {
+            color: #e74c3c;
+            margin: 0 0 10px 0;
+        }
+
+        p {
+            margin: 5px 0;
+            color: #ecf0f1;
+        }
+
+        .icon {
+            font-size: 50px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎬 BookMyShow - Now Showing</h1>
+
+    <div id="movieList"></div>
+
+    <script>
+        let movies = [
+            { name: "Pushpa 2", genre: "Action", duration: "3h 20m", icon: "🔥", rating: 8.5 },
+            { name: "Jawan", genre: "Action", duration: "2h 49m", icon: "💪", rating: 8 },
+            { name: "Animal", genre: "Drama", duration: "3h 21m", icon: "🐅", rating: 9 },
+            { name: "Salaar", genre: "Action", duration: "2h 55m", icon: "⚔️", rating: 8.9 },
+            { name: "Dunki", genre: "Comedy", duration: "2h 41m", icon: "✈️", rating: 9 }
+        ];
+        function displayMovies() {
+            let html = '';
+            movies.forEach(movie => {
+                html += "<div class ='m'>"
+                html += "<p class='icon'>" + movie.icon + '</p>'
+                html += '<h3>' + movie.name + '</h3>'
+                html += '<p>' + 'Genre: ' + movie.genre + '</p>'
+                html += '<p>Duration: ' + movie.duration + '</p>'
+                html += '<p>Rating: ⭐ ' + movie.rating + '</p>'
+                html += '</div>'
+            })
+            document.getElementById('movieList').innerHTML = html
+            console.log(html)
+        }
+        displayMovies()
+    </script>
+</body>
+</html>

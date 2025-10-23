@@ -1,0 +1,25 @@
+<!-- Srikanth M  batch no-5  -->
+ <!-- Exercise 1: Display 3 Movies
+Task: Display these 3 movies on webpage -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie</title>
+</head>
+<body>
+    <div id="movieList"></div>
+    <script>
+        let movies = ["Pushpa 2", "Jawan", "Animal"];
+        function displayMovies(){
+            let html = '';
+            movies.forEach(movie => {
+                html += `<div> ${movie} </div>`
+            })
+            document.getElementById('movieList').innerHTML = html
+        }
+        displayMovies()
+    </script>
+</body>
+</html>
