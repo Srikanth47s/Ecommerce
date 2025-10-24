@@ -10,10 +10,10 @@ h1{
   color: #fd0000;
 }
 .container{
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   margin-top: 5px;
-  flex-wrap: wrap;
+  
 }
 .movie-div{
   padding: 17px;
