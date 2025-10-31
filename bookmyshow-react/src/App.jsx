@@ -1,15 +1,15 @@
-import './App.css'
+import DisplayData from './utilitiess/DisplayData'
 import Navbar from './utilitiess/Navbar'
 
-function App() {
 
 
+export default function App() {
   return (
-    <>
-      <Navbar />
-    </>
-
+    <div>
+     <Navbar /> 
+     <DisplayData/>
+    </div>
   )
 }
 
-export default App
+
