@@ -1,6 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { additem, deleteItem } from "../store/CartCount";
+
+
+
+
 export default function DisplayData() {
+    let cartItems = useSelector(state => state.cartItems)
+    let dispatch = useDispatch()
     const [products, setProducts] = useState([])
     useEffect(() => {
         let responce = async () => {
@@ -9,35 +17,113 @@ export default function DisplayData() {
         }
         responce()
     }, [])
-    console.log(products)
+
+    
+    // console.log(cartItems)
+    // let dispatchCart = useDispatch()
+
+    const addToCart = async (product) => {
+        
+        dispatch(additem(product))
+        // debugger
+        console.log("cartitems",cartItems)
+debugger
+        if (cartItems.length > 0) {
+            const addCartPost = await axios.post('https://dummyjson.com/carts/add', { userId: 1, products: cartItems }).catch(err => console.log(err.message))
+            console.log(addCartPost)
+        }
+        debugger
+        // console.log(addCartPost)
+
+        // fetch('https://dummyjson.com/carts/add', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         userId: 1,
+        //         products: [
+        //            cartItems
+        //         ]
+        //     })
+        // })
+        //     .then(res => res.json())
+        //     .then(console.log);
+
+    }
+
+    let deleteToCart = (product) => {
+        // console.log("delete",product)
+        dispatchCart(deleteItem(product))
+    }
 
 
 
     return (
-        <div className="container mt-3">
+        <div className="container-fluide m-3">
             <div className="row ">
-                {
-                    products.map(product => (
-                        <div className="col-md-3 mb-4" key={product.id}>
-                                <div className="card h-100 shadow-sm">
-                                    <img
-                                        src={product.thumbnail}
-                                        alt={product.title}
-                                        className="card-img-top"
-                                        style={{ height: "180px", objectFit: "cover" }}
-                                    />
-                                    <div className="card-body d-flex flex-column">
-                                        <h6 className="card-title">{product.title}</h6>
-                                        <p className="text-muted small mb-2">{product.brand}</p>
-                                        <p className="fw-bold">₹ {product.price}</p>
-                                        <button className="btn btn-primary mt-auto">
-                                            Add to Cart
-                                        </button>
+                <div className="col-md-8">
+                    <div className="row">
+                        {
+                            products.map(product => (
+                                <div className="col-3 mb-4" key={product.id}>
+                                    <div className="card h-100 shadow-sm">
+                                        <img
+                                            src={product.thumbnail}
+                                            alt={product.title}
+                                            className="card-img-top"
+                                            style={{ height: "180px", objectFit: "cover" }}
+                                        />
+                                        <div className="card-body d-flex flex-column">
+                                            <h6 className="card-title">{product.title}</h6>
+                                            <p className="text-muted small mb-2">{product.brand}</p>
+                                            <p className="fw-bold">$ {product.price}</p>
+
+                                            <button className="btn btn-primary mt-auto" onClick={e => addToCart(product)}>
+                                                Add to Cart
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                    ))
-                }
+                            ))
+                        }
+                    </div>
+                </div>
+
+
+                <div className="col-md-4 text-center bg-light ">
+                    <h1 className="text-primary  p-2">🛒 Cart {cartItems.length}</h1>
+                    {cartItems.length === 0 ? (
+                        <button className="btn btn-primary form-control">Your cart is empty.</button>
+                    ) : (
+                        <ul className="list-group border-bottom">
+                            {cartItems.map((item, index) => (
+                                <li
+                                    key={index}
+                                    className="list-group-item d-flex flex-column align-items-center  border-bottom"
+                                >
+                                    <div className="card  mb-3 border border-0">
+                                        <img src={item.thumbnail} className="card-img-top img-fluid"
+                                            style={{ width: "100px", height: "auto", margin: "auto" }} alt={item.title} />
+                                        <div className="card-body">
+                                            <h5 className="card-title">{item.title}</h5>
+                                            <p><b>Price:</b> $ {item.price}</p>
+
+
+                                        </div>
+                                        <div className="d-block">
+                                            <button className="btn btn-danger ps-5 pe-5 p-2" onClick={e => deleteToCart(item)}>Remove</button>
+                                        </div>
+
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                    {/* <h5 className="bg-warning p-2 mt-2 text-white">Total cart value: 100</h5> */}
+                </div>
+
+
+
+
 
 
             </div>
