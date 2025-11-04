@@ -9,16 +9,13 @@ let cartCountSlice = createSlice(
                 // console.log('payload',action.payload)
                 // debugger
             //   state.products = action.payload
-                state.push(action.payload)
+                // state.push(action.payload)
                 // console.log('state',state)
-                return state;
-                // return [...state,action.payload]
+                // return state;
+                return [...state,action.payload]
             },
             deleteItem:(state,action) => {
-              return  state.filter((item)=> item.id != action.payload.id) 
-
-                
-           
+              return  state.filter((item)=> item.id != action.payload.id)            
             }
         }
 

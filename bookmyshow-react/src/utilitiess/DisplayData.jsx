@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { additem, deleteItem } from "../store/CartCount";
+import { ClipLoader } from 'react-spinners'
 
 
 
@@ -9,7 +10,11 @@ import { additem, deleteItem } from "../store/CartCount";
 export default function DisplayData() {
     let cartItems = useSelector(state => state.cartItems)
     let dispatch = useDispatch()
+
     const [products, setProducts] = useState([])
+    const [addCart, setAddCart] = useState([])
+    const [cartTotalPrice, setCartTotalPrice] = useState(0)
+    // const [deleteCartItems, setDeleteCartItems]= useState([])
     useEffect(() => {
         let responce = async () => {
             const data = await axios.get('https://dummyjson.com/products')
@@ -18,20 +23,27 @@ export default function DisplayData() {
         responce()
     }, [])
 
-    
+
     // console.log(cartItems)
     // let dispatchCart = useDispatch()
 
     const addToCart = async (product) => {
-        
+        // const upadatedCart = [...cartItems, product]
+
         dispatch(additem(product))
         // debugger
-        console.log("cartitems",cartItems)
-debugger
-        if (cartItems.length > 0) {
-            const addCartPost = await axios.post('https://dummyjson.com/carts/add', { userId: 1, products: cartItems }).catch(err => console.log(err.message))
-            console.log(addCartPost)
-        }
+
+        debugger
+
+        console.log("cartitems", cartItems)
+        await axios.post('https://dummyjson.com/carts/add', {
+            userId: 1, products: [
+                { id: product.id, quantity: 1 }
+            ]
+        }).catch(err => console.log(err.message))
+        setAddCart(addCartPost.data.products)
+        console.log('addcart', addCartPost)
+
         debugger
         // console.log(addCartPost)
 
@@ -50,19 +62,28 @@ debugger
 
     }
 
-    let deleteToCart = (product) => {
+    let deleteToCart = async (product) => {
         // console.log("delete",product)
-        dispatchCart(deleteItem(product))
+
+        dispatch(deleteItem(product))
+        console.log(cartItems, 'delete cart items')
+        await axios.delete('https://dummyjson.com/carts/1').catch(err => console.log(err.message))
+        console.log('deleteItem', deleteItems)
     }
+
+    
 
 
 
     return (
+
         <div className="container-fluide m-3">
             <div className="row ">
                 <div className="col-md-8">
                     <div className="row">
-                        {
+                        {products.length === 0 ? <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                            <ClipLoader color="#369cd7ff" size={100} />
+                        </div> :
                             products.map(product => (
                                 <div className="col-3 mb-4" key={product.id}>
                                     <div className="card h-100 shadow-sm">
@@ -90,7 +111,12 @@ debugger
 
 
                 <div className="col-md-4 text-center bg-light ">
-                    <h1 className="text-primary  p-2">🛒 Cart {cartItems.length}</h1>
+                    {cartItems.length > 0 && <div className="d-flex justify-content-between">
+                        <h3 className="text-primary  p-2">🛒 Cart {cartItems.length}</h3>
+                        <h3 className="text-primary p-2"></h3>
+                    </div>}
+
+
                     {cartItems.length === 0 ? (
                         <button className="btn btn-primary form-control">Your cart is empty.</button>
                     ) : (
@@ -127,7 +153,7 @@ debugger
 
 
             </div>
-        </div>
+        </div >
 
     )
 }
