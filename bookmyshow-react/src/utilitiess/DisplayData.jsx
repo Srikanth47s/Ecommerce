@@ -113,7 +113,7 @@ export default function DisplayData() {
                 <div className="col-md-4 text-center bg-light ">
                     {cartItems.length > 0 && <div className="d-flex justify-content-between">
                         <h3 className="text-primary  p-2">🛒 Cart {cartItems.length} </h3>
-                        <h3 className="text-primary p-2"></h3>
+                        <h3 className="text-primary p-2"> </h3>
                     </div>}
 
 
